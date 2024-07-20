@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Disease Predictor</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light">
+    <div class="container">
+        <h1 class="mt-5 mb-4">Disease Predictor</h1>
+        <form method="POST">
+            <div class="form-group">
+                {% for symptom in symptoms %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="{{ symptom }}" name="symptoms" value="{{ symptom }}">
+                        <label class="form-check-label" for="{{ symptom }}">{{ symptom }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        
+        {% if prognosis %}
+            <h2 class="mt-5">Predicted Disease: {{ prognosis }}</h2>
+            <h3>Recommended Medicines:</h3>
+            <ul class="list-group">
+                {% for drug in drugs %}
+                    <li class="list-group-item">{{ drug }}</li>
+                {% endfor %}
+            </ul>
+            <a href="{{ url_for('medicine') }}" class="btn btn-info mt-4">Go to Medicine Page</a>
+        {% endif %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

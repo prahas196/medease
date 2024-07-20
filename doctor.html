@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-light">
+    <div class="container">
+        <h1 class="mt-5 mb-4">Doctor Page</h1>
+        <h2>Patient List</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Symptoms</th>
+                    <th>Diagnosis</th>
+                    <th>Medicines</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients %}
+                <tr>
+                    <td>{{ patient.name }}</td>
+                    <td>{{ patient.age }}</td>
+                    <td>{{ patient.gender }}</td>
+                    <td>{{ patient.symptoms }}</td>
+                    <td>{{ patient.diagnosis }}</td>
+                    <td>{{ patient.medicines }}</td>
+                    <td>
+                        <form action="{{ url_for('update_medicines', patient_id=patient.id) }}" method="POST">
+                            {% for drug in drug_df[drug_df['Disease'] == patient.diagnosis]['Drug'].tolist() %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="medicines" value="{{ drug }}" {% if drug in patient.medicines.split(',') %}checked{% endif %}>
+                                <label class="form-check-label">{{ drug }}</label>
+                            </div>
+                            {% endfor %}
+                            <button type="submit" class="btn btn-success mt-2">Update</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.com/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
